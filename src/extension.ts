@@ -88,7 +88,7 @@ function wrapPareditCommand(fn) {
         fn({ textEditor: textEditor,
              src:        src,
              ast:        paredit.parse(src),
-             selection:  utils.getSelection(textEditor) });
+             range:  utils.getSelection(textEditor) });
     }
 }
 
