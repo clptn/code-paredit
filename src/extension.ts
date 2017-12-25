@@ -49,6 +49,14 @@ const edit = (fn, ...args) =>
                 utils.select(textEditor, res.newIndex);
     }
 
+function pareditDelete(ast,src,idx) {
+    let result = paredit.editor.delete(ast,src,idx, {'backward': true});
+    if (result.changes.length == 0) {
+        return {changes: [], newIndex: result.newIndex - 1};
+    }
+    return result;
+}
+
 const pareditCommands : [[string, Function]] = [
 
     // NAVIGATION
@@ -75,7 +83,9 @@ const pareditCommands : [[string, Function]] = [
     ['paredit.wrapAroundSquare',       edit(paredit.editor.wrapAround, '[', ']')],
     ['paredit.wrapAroundCurly',        edit(paredit.editor.wrapAround, '{', '}')],
     ['paredit.indentRange',            indent],
-    ['paredit.transpose',              edit(paredit.editor.transpose)]];
+    ['paredit.transpose',              edit(paredit.editor.transpose)],
+    ['paredit.backspace',              edit(pareditDelete)]
+];
 
 function wrapPareditCommand(fn) {
     return () => {
